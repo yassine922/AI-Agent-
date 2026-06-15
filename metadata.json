@@ -1,0 +1,6 @@
+{
+  "name": "الوكيل المستقل",
+  "description": "منصة ذكية من 7 وكلاء مستقلين لتنقيب الـ APIs المجانية، تجربة الأكواد، تصميم واجهات Material 3، تسعير صفقات العمل وصيد واستكشاف مبيعات العملاء المحليين وتوليد أرقى حملات الـ Outreach.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
