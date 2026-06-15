@@ -62,6 +62,49 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun DownloadIcon(modifier: Modifier = Modifier, color: Color = MaterialTheme.colorScheme.primary) {
+    androidx.compose.foundation.Canvas(modifier = modifier) {
+        val w = size.width
+        val h = size.height
+        val strokeWidth = (w * 0.1f).coerceIn(4f, 12f)
+        
+        // Vertical stem of the arrow
+        drawLine(
+            color = color,
+            start = androidx.compose.ui.geometry.Offset(w / 2f, h * 0.12f),
+            end = androidx.compose.ui.geometry.Offset(w / 2f, h * 0.62f),
+            strokeWidth = strokeWidth,
+            cap = androidx.compose.ui.graphics.StrokeCap.Round
+        )
+        
+        // Arrowhead sides
+        drawLine(
+            color = color,
+            start = androidx.compose.ui.geometry.Offset(w / 2f, h * 0.62f),
+            end = androidx.compose.ui.geometry.Offset(w / 2f - w * 0.22f, h * 0.42f),
+            strokeWidth = strokeWidth,
+            cap = androidx.compose.ui.graphics.StrokeCap.Round
+        )
+        drawLine(
+            color = color,
+            start = androidx.compose.ui.geometry.Offset(w / 2f, h * 0.62f),
+            end = androidx.compose.ui.geometry.Offset(w / 2f + w * 0.22f, h * 0.42f),
+            strokeWidth = strokeWidth,
+            cap = androidx.compose.ui.graphics.StrokeCap.Round
+        )
+        
+        // Base flat bar
+        drawLine(
+            color = color,
+            start = androidx.compose.ui.geometry.Offset(w * 0.2f, h * 0.82f),
+            end = androidx.compose.ui.geometry.Offset(w * 0.8f, h * 0.82f),
+            strokeWidth = strokeWidth,
+            cap = androidx.compose.ui.graphics.StrokeCap.Round
+        )
+    }
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(viewModel: AgentViewModel) {
@@ -105,11 +148,9 @@ fun MainScreen(viewModel: AgentViewModel) {
                 ),
                 actions = {
                     IconButton(onClick = { showDownloadDialog = true }) {
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = "تحميل التطبيق",
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(28.dp)
+                        DownloadIcon(
+                            modifier = Modifier.size(26.dp),
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                     if (currentTab == "chat") {
@@ -223,11 +264,9 @@ fun MainScreen(viewModel: AgentViewModel) {
                             ),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.KeyboardArrowDown,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(36.dp)
+                        DownloadIcon(
+                            modifier = Modifier.size(36.dp),
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
 
@@ -240,7 +279,7 @@ fun MainScreen(viewModel: AgentViewModel) {
                     )
 
                     Text(
-                        text = "بما أنك تتصفح من خلال الهاتف أو شاشتنا التفاعلية، يمكنك تحميل ملف الـ APK وتثبيته مباشرة لتجربته كبرنامج حقيقي بكامل كفاءته وسرعته!",
+                        text = "لتثبيت التطبيق الفعلي على هاتفك الأندرويد والاستمتاع بكامل سرعته وثباته دون الحاجة للمتصفح، يرجى اتباع الخطوات الموضحة بالأسفل لتنزيل الـ APK الآن من المنصة:",
                         fontSize = 13.sp,
                         lineHeight = 20.sp,
                         textAlign = TextAlign.Center,
@@ -254,7 +293,7 @@ fun MainScreen(viewModel: AgentViewModel) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(
-                            text = "💡 خطوات التحميل من الهاتف والمنصة:",
+                            text = "💡 خطوات تحميل الـ APK بكل سهولة:",
                             fontWeight = FontWeight.Bold,
                             fontSize = 13.sp,
                             color = MaterialTheme.colorScheme.primary
@@ -266,7 +305,7 @@ fun MainScreen(viewModel: AgentViewModel) {
                         ) {
                             Text("1.", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                             Text(
-                                text = "اضغط على زر القائمة الجانبية أو زر الإعدادات (أيقونة الترس/النقاط الثلاث) الموجود في أعلى يمين واجهة Google AI Studio في متصفحك.",
+                                text = "انظر إلى الهامش السفلي الأيمن لواجهة المنصة (خارج شاشة التطبيق الزرقاء)، واضغط على زر النقاط الثلاث (•••) المتواجد بجانب زر Preview.",
                                 fontSize = 12.sp,
                                 lineHeight = 18.sp
                             )
@@ -278,7 +317,7 @@ fun MainScreen(viewModel: AgentViewModel) {
                         ) {
                             Text("2.", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                             Text(
-                                text = "ابحث عن خيار \"Download APK\" أو \"Export Project as ZIP\".",
+                                text = "اضغط على خيار \"Settings\" (الإعدادات) لتفتح قائمة خيارات النظام الجانبية.",
                                 fontSize = 12.sp,
                                 lineHeight = 18.sp
                             )
@@ -290,9 +329,23 @@ fun MainScreen(viewModel: AgentViewModel) {
                         ) {
                             Text("3.", fontWeight = FontWeight.Bold, fontSize = 13.sp)
                             Text(
-                                text = "بمجرد التنزيل، افتح ملف الـ APK في هاتفك ووافق على التثبيت من مصادر غير معروفة للبدء فوراً بجني الأرباح والتواصل الفعلي مع الوكلاء السبعة!",
+                                text = "ابحث عن خيار \"Versions\" (إصدارات البناء) واضغط عليه لعرض ملفات البناء المجمعة.",
                                 fontSize = 12.sp,
                                 lineHeight = 18.sp
+                            )
+                        }
+
+                        Row(
+                            verticalAlignment = Alignment.Top,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Text("4.", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text(
+                                text = "اضغط على أحدث إصدار ناجح (Latest Compile Row) المكتوب في القائمة، ومن هناك مباشرة قم بالضغط على زر \"Download APK\" لبدء التحميل فوراً على هاتفك وتثبيته!",
+                                fontSize = 12.sp,
+                                lineHeight = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
                             )
                         }
                     }
